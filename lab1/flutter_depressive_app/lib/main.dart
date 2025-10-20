@@ -73,6 +73,19 @@ class HomePage extends StatelessWidget {
                 );
               },
             ),
+            const SizedBox(height: 16),
+            
+            // Кнопка для перехода к третьей части
+            _buildNavigationButton(
+              title: 'Бесконечный скролл',
+              color: const Color(0xFF8B0000),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ThirdPart()),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -362,6 +375,185 @@ class SecondPart extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// Третья часть приложения - бесконечный скролл
+class ThirdPart extends StatelessWidget {
+  const ThirdPart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        title: const Text(
+          'Бесконечный скролл',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        backgroundColor: Colors.grey[850],
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.grey),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            // Карточки с депрессивным контентом
+            _buildDepressiveCard(
+              title: 'Всё тленно',
+              content: 'Ничто не вечно под луной\nВсё проходит, всё уходит',
+              color: Colors.grey[800]!,
+            ),
+            _buildDepressiveCard(
+              title: 'Боль существования',
+              content: 'Рождаться больно, жить больно,\nумирать тоже больно',
+              color: const Color(0xFF8B0000),
+            ),
+            _buildDepressiveCard(
+              title: 'Одиночество',
+              content: 'В толпе людей я так одинок,\nмой крик поглощает тишина',
+              color: Colors.grey[700]!,
+            ),
+            
+            // Генерация списка элементов для скролла
+            for (int i = 0; i < 15; i++)
+              _buildScrollItem(i),
+            
+            // Конец списка
+            Container(
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[600]!, width: 0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                'Конец списка... или начало нового?\nВсё циклично и бессмысленно',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Метод для создания карточек
+  Widget _buildDepressiveCard({
+    required String title,
+    required String content,
+    required Color color,
+  }) {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromRGBO(0, 0, 0, 0.4),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        border: Border.all(
+          color: Colors.grey[600]!,
+          width: 0.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Container(
+            height: 1,
+            color: Colors.grey[500],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            content,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[300],
+              height: 1.4,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Метод для создания элементов списка
+  Widget _buildScrollItem(int index) {
+    // Список депрессивных фраз
+    List<String> depressivePhrases = [
+      'Еще один день...',
+      'Время течет медленно',
+      'Ничего не меняется',
+      'Ожидание конца',
+      'Тишина внутри',
+      'Пустота вокруг',
+      'Сны без сновидений',
+      'Шёпот забытых слов',
+      'Тени прошлого',
+      'Эхо ушедшего',
+      'Пыль воспоминаний',
+      'Холод настоящего',
+      'Туман будущего',
+      'Разбитые мечты',
+      'Угасшие надежды',
+    ];
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: index % 3 == 0 ? Colors.grey[800] : Colors.grey[850],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Colors.grey[700]!,
+          width: 0.3,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 4,
+            height: 40,
+            color: index % 4 == 0 ? const Color(0xFF8B0000) : Colors.grey[600],
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              depressivePhrases[index % depressivePhrases.length],
+              style: TextStyle(
+                color: Colors.grey[300],
+                fontSize: 14,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
